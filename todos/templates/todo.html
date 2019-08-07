@@ -11,7 +11,13 @@
     <ul>
         {% for i in items %}
         <li>
-            {{i.name}}
+            [{{i.category.name}} ]  {{i.name}}  | 
+            {% for t in i.tags.all %}
+            <span>#{{ t.name }}</span>
+            {% endfor %}
+            
+            <a href='todo/edit/{{ i.id}}'>Edit</a>
+    
         </li>
         {% endfor %}
     </ul>

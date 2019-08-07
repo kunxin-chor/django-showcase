@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Item
 from .forms import ItemForm
 
@@ -32,3 +32,17 @@ def create_todo(request):
         return render(request, "todo_form.html",{
             'form':form
         })
+        
+def edit_todo(request, id):
+    item = get_object_or_404(Item, pk=id)
+    if request.method == 'POST':
+        form = ItemForm(request.POST,instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect(show_todos)
+    else:
+        form = ItemForm(instance=item)
+        return render(request, 'todo_form.html',{
+            'form':form
+        })
+        
