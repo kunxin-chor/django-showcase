@@ -7,6 +7,7 @@ class Item(models.Model):
     name = models.CharField(max_length=30, blank=False)
     done = models.BooleanField(blank=False, default=False)
     ongoing = models.BooleanField(blank=False, default=False)
+    completed_at = models.DateField(blank=True, null=True, default=None)
     
     def __str__(self):
         return self.name

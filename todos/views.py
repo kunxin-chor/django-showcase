@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import Item
 from .forms import ItemForm
 
@@ -19,7 +19,16 @@ def show_todos(request):
     #return render('todo.html', items=results)
     
 def create_todo(request):
-    form = ItemForm()
-    return render(request, "todo_form.html",{
-        'form':form
-    })
+    if request.method == 'POST':
+        # process the form
+        form = ItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(show_todos)
+        pass
+    
+    else:
+        form = ItemForm()
+        return render(request, "todo_form.html",{
+            'form':form
+        })
